@@ -76,29 +76,28 @@ class Byt5LangTokenizer(ByT5Tokenizer):
     def __call__(self, texts: Union[List[str], str], langs: Union[List[List[str]], List[str]], pad_token_id: int = 0, **kwargs):
         tokenized = []
         all_langs = []
-
         is_list = True
+    
         # Convert to list of lists format
         if isinstance(texts, str):
             texts = [texts]
             is_list = False
-
+    
         if isinstance(langs[0], str):
-            langs = [langs]
-
-        # One language input per text input
+            langs = [langs] * len(texts)
+    
         assert len(langs) == len(texts)
-
+    
         for text, lang in zip(texts, langs):
             tokens, lang_list = _tokenize(text, lang)
             tokenized.append(tokens)
             all_langs.append(lang_list)
-
-        # Convert back to flat format
+    
+        # Convert back to flat format if not is_list
         if not is_list:
             tokenized = tokenized[0]
             all_langs = all_langs[0]
-
+    
         return {"input_ids": tokenized, "langs": all_langs}
 
     def decode(
