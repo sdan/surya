@@ -99,7 +99,7 @@ def run_ocr(images: List[Image.Image], langs: List[List[str]], det_model, det_pr
 
         predictions_by_image.append(OCRResult(
             text_lines=lines,
-            languages=lang,
+            languages=[lang],
             image_bbox=det_pred.image_bbox
         ))
 
